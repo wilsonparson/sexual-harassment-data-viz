@@ -1,1 +1,3 @@
 # sexual-harassment-data-viz
+
+This is a group project for SI 649: Information Visualization at University of Michigan School of Information. The data used for the project are taken from a survey created by Karen Kelsky, PhD: [Sexual Harassment In the Academy: An Anonymous Crowdsourced Survey](https://docs.google.com/forms/d/e/1FAIpQLSeqWdpDxVRc-i8OiiClJPluIpjMlM41aUlU2E0rrQ4br_rQmA/viewform). Live survey results can be found at [Sexual Harassment In the Academy: An Anonymous Crowdsourced Survey (Live Submissions Google Sheet)](https://docs.google.com/spreadsheets/d/1S9KShDLvU7C-KkgEevYTHXr3F6InTenrBsS9yk-8C5M/edit#gid=1530077352).
