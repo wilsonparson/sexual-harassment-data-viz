@@ -1,5 +1,6 @@
 'use strict';
 const model = new Model('data.json');
+var powergapColorScale;
 var chart;
 
 model.loadData()
@@ -19,7 +20,8 @@ model.loadData()
     chart.draw();
 
     //Move this somewhere cleaner
-    d3.select('.legend-items').selectAll('div')
+    // Discipline Legend
+    d3.select('.legend .legend-items').selectAll('div')
       .data(["Null", "K-12", "Undergraduate Student", "Graduate Student", "Masters Student", "PhD Student", "Postdoc", "Faculty", "Assistant Professor", "Associate Professor", "Professor", "Administrative"])
       .enter()
       .append('div')
@@ -28,6 +30,25 @@ model.loadData()
         })
         .text((d) => d);
 
+    powergapColorScale = d3.scaleSequential(d3.interpolateBrBG)
+      .domain([-model.targetRolesByRank.length, model.targetRolesByRank.length]);
+
+    // Powergap legend
+    const powergapScale = [];
+    for (let i=-model.targetRolesByRank.length+1, ii=model.targetRolesByRank.length; i<ii; i++) {
+      powergapScale.push(i);
+    }
+    d3.select('.powergap-legend .legend-items').selectAll('div')
+      .data(powergapScale)
+      .enter()
+      .append('div')
+        .attr('style', (d) => {
+          return `background-color: ${powergapColorScale(d)};`;
+        })
+        .text((d) => d);
+
+
+    //tooltip
     document.querySelectorAll('circle').forEach((element) => {
       element.addEventListener('mouseover', (e) => {
         d3.selectAll('.tooltip').remove();
@@ -50,8 +71,7 @@ model.loadData()
 
 document.querySelector('button').addEventListener( 'click', (e) => {
   chart.data = model.getDataByDiscipline('powergap');
-  chart.colorScale = d3.scaleSequential(d3.interpolateBrBG)
-    .domain([-model.targetRolesByRank.length, model.targetRolesByRank.length]);
+  chart.colorScale = powergapColorScale;
   chart.colorScaleParam = 'powergap';
   chart.draw();
 });

@@ -4,38 +4,52 @@ body {
 
 h1 {
   text-align: center;
+  font-size: 1.5rem;
+}
+
+h2 {
+  font-size: 1.2rem;
 }
 
 .chart-container {
   /*height: 800px;*/
 }
 
-.legend {
+.legend, .powergap-legend {
   width: 85%;
   margin: 0 auto;
 }
+
 
 .legend-items {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  font-size: x-small;
+  font-size: 8px;
   margin: 0 auto;
 }
 
 .legend-items div {
   padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.legend .legend-items div {
   margin: 2px;
   border-radius: 2px;
-  display: flex;
-  text-align: center;
-  align-items: center;
+}
+
+.powergap-legend .legend-items div {
+  flex: 1;
 }
 
 .controls {
   display: flex;
   justify-content: space-evenly;
-  
+
 }
 
 .tooltip {
