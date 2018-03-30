@@ -60,6 +60,9 @@ class Chart {
     this.plot.append('g')
       .attr('transform', `translate(0, ${this.plotHeight})`)
       .call(d3.axisBottom(this.xScale));
+    this.plot.append('g')
+      .attr('transform', 'translate(0,-5)')
+      .call(d3.axisTop(this.xScale));
   }
 
 

@@ -27,6 +27,22 @@ model.loadData()
           return `background-color: ${chart.colorScale(d)}`;
         })
         .text((d) => d);
+
+    document.querySelectorAll('circle').forEach((element) => {
+      element.addEventListener('mouseover', (e) => {
+        d3.selectAll('.tooltip').remove();
+        var tooltip = d3.select('body').append('div')
+          .attr('class', 'tooltip')
+          .attr('style', `left: ${e.x}px; top: ${e.y}px;`);
+        tooltip.append('p')
+          .text('Incident:');
+        tooltip.append('p')
+          .text('Resolution:');
+      });
+      element.addEventListener('mouseout', (e) => {
+        //d3.selectAll('.tooltip').remove();
+      });
+    });
   })
   .catch((error) => {
     throw error;

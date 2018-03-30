@@ -31,3 +31,16 @@ h1 {
   text-align: center;
   align-items: center;
 }
+
+.controls {
+  display: flex;
+  justify-content: space-evenly;
+  
+}
+
+.tooltip {
+  position: absolute;
+  height: 100px;
+  width: 200px;
+  background-color: gray;
+}
