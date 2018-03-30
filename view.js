@@ -6,6 +6,9 @@ class Chart {
     this.element = options.element;
     this.title = options.title;
     this.margin = options.margin;
+    this.colorScale = options.colorScale;
+    this.colorScaleParam = options.colorScaleParam;
+    this.dotsPerBandWidth = options.dotsPerBandWidth;
     this.transition = {
       duration: '400ms'
     };
@@ -14,7 +17,7 @@ class Chart {
   draw() {
     this.svg = d3.select(this.element).append('svg')
       .attr('width', this.element.offsetWidth)
-      .attr('height', this.element.offsetHeight);
+      .attr('height', this.plotHeight + this.margin.top + this.margin.bottom);
     this.plot = this.svg.append('g')
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
     this.createXScale();
@@ -22,8 +25,11 @@ class Chart {
     this.drawXAxis();
     this.drawYAxis();
   //  this.drawBars();
-    this.createColorScale();
-    this.drawSquares();
+    this.drawDots();
+  }
+
+  update() {
+    this.drawDots();
   }
 
   createXScale() {
@@ -35,8 +41,8 @@ class Chart {
   createYScale() {
     this.yScale = d3.scaleBand()
       .domain(this.data.map((d) => d.key))
-      .range([0, this.plotHeight])
-      .paddingInner(0.1)
+      .range([0, (this.dotsPerBandWidth * this.data.length * this.dotRadius *2)])
+      .paddingInner(0.2)
       .paddingOuter(0.1);
   }
 
@@ -56,8 +62,7 @@ class Chart {
       .call(d3.axisBottom(this.xScale));
   }
 
-  createColorScale() {
-  }
+
 
   drawBars() {
     var bars = this.plot.selectAll('.bar')
@@ -82,7 +87,7 @@ class Chart {
         .attr('height', this.yScale.bandwidth());
   }
 
-  drawSquares() {
+  drawDots() {
     var bars = this.plot.selectAll('.bar')
       .data(this.data, (d) => d.key);
     //
@@ -103,13 +108,34 @@ class Chart {
           .selectAll('rect')
             .data((d) => d.values)
             .enter().append('circle')
-              .attr('r', this.yScale.bandwidth() / 4 / 2)
+              .attr('r', this.dotRadius)
               .attr('cx', (d,i) => {
-                return (this.yScale.bandwidth()/4) * (Math.floor(i/4));
+                return Chart.getDotCoordinates(i, this).x;
               })
               .attr('cy', (d,i) => {
-                return (this.yScale.bandwidth()/4) * (i%4);
+                return Chart.getDotCoordinates(i, this).y;
+              })
+              .attr('fill', (d) => {
+                if (this.colorScaleParam === 'powergap') {
+                  return this.colorScale(Math.abs(d.powergap));
+                } else {
+                  return this.colorScale(d.cleantargetrole);
+                }
               });
+  }
+
+  get dotRadius() {
+    return this.plotWidth / d3.max(this.data, (d) => d.values.length)
+      * this.dotsPerBandWidth / 2; // half for radius
+  }
+
+  static getDotCoordinates(index, chart) {
+    let coordinates = {};
+    coordinates.x = (chart.yScale.bandwidth() / chart.dotsPerBandWidth)
+      * (Math.floor(index/chart.dotsPerBandWidth));
+    coordinates.y = (chart.yScale.bandwidth() / chart.dotsPerBandWidth)
+      * (index % chart.dotsPerBandWidth);
+    return coordinates;
   }
 
   get plotWidth() {
@@ -119,9 +145,10 @@ class Chart {
   }
 
   get plotHeight() {
-    return this.element.offsetHeight
-      - this.margin.left
-      - this.margin.right;
+    // return this.element.offsetHeight
+    //   - this.margin.top
+    //   - this.margin.bottom;
+    return this.dotsPerBandWidth * this.data.length * this.dotRadius * 2;
   }
 
 }

@@ -1,3 +1,33 @@
+body {
+  font-family: sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
 .chart-container {
-  height: 900px;
+  /*height: 800px;*/
+}
+
+.legend {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.legend-items {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: x-small;
+  margin: 0 auto;
+}
+
+.legend-items div {
+  padding: 5px;
+  margin: 2px;
+  border-radius: 2px;
+  display: flex;
+  text-align: center;
+  align-items: center;
 }
