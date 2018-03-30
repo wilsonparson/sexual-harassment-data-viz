@@ -21,13 +21,7 @@ class Model {
   getDataByDiscipline(sortValuesBy='targetvalue') {
     let dataByDiscipline = d3.nest()
       .key((d) => d['cleandisciplinev2'])
-      .sortValues((a,b) => {
-        if (sortValuesBy ==='powergap') {
-          return d3.ascending(Math.abs(a.powergap), Math.abs(b.powergap));
-        } else {
-          return d3.ascending(a[sortValuesBy], b[sortValuesBy]);
-        }
-      })
+      .sortValues((a,b) => d3.ascending(a[sortValuesBy], b[sortValuesBy]))
       .entries(this.data);
     dataByDiscipline.sort((a,b) => d3.descending(a.values.length, b.values.length));
     return dataByDiscipline;

@@ -118,13 +118,7 @@ class Chart {
               .attr('cy', (d,i) => {
                 return Chart.getDotCoordinates(i, this).y;
               })
-              .attr('fill', (d) => {
-                if (this.colorScaleParam === 'powergap') {
-                  return this.colorScale(Math.abs(d.powergap));
-                } else {
-                  return this.colorScale(d.cleantargetrole);
-                }
-              });
+              .attr('fill', (d) => this.colorScale(d[this.colorScaleParam]));
   }
 
   get dotRadius() {

@@ -50,8 +50,8 @@ model.loadData()
 
 document.querySelector('button').addEventListener( 'click', (e) => {
   chart.data = model.getDataByDiscipline('powergap');
-  chart.colorScale = d3.scaleSequential(d3.interpolateBlues)
-    .domain([0, model.targetRolesByRank.length]);
+  chart.colorScale = d3.scaleSequential(d3.interpolateBrBG)
+    .domain([-model.targetRolesByRank.length, model.targetRolesByRank.length]);
   chart.colorScaleParam = 'powergap';
   chart.draw();
 });
