@@ -34,5 +34,4 @@ class Model {
     targetRolesByRank.sort((a,b) => d3.ascending(a.values[0].targetvalue, b.values[0].targetvalue));
     return targetRolesByRank.map(datum => datum.key);
   }
-
 }

@@ -73,5 +73,5 @@ document.querySelector('button').addEventListener( 'click', (e) => {
   chart.data = model.getDataByDiscipline('powergap');
   chart.colorScale = powergapColorScale;
   chart.colorScaleParam = 'powergap';
-  chart.draw();
+  chart.drawBars();
 });

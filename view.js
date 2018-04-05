@@ -24,8 +24,7 @@ class Chart {
     this.createYScale();
     this.drawXAxis();
     this.drawYAxis();
-  //  this.drawBars();
-    this.drawDots();
+    this.drawBars();
   }
 
   update() {
@@ -65,60 +64,53 @@ class Chart {
       .call(d3.axisTop(this.xScale));
   }
 
-
-
   drawBars() {
     var bars = this.plot.selectAll('.bar')
       .data(this.data, (d) => d.key);
 
     bars.exit()
       .remove();
-   
+
     bars
-      .attr('width', (d) => this.plotWidth - this.xScale(d.values.length))
-      .attr('height', this.yScale.bandwidth())
-      .attr('x', 0)
-      .attr('y', (d) => this.yScale(d.key));
+      .attr('class', 'bar')
+      .attr('transform', (d) => `translate(5,${this.yScale(d.key)})`);
 
-   
-    bars.enter()
-      .append('rect')
-        .attr('class', 'bar')
-        .attr('x', 0)
-        .attr('y', (d) => this.yScale(d.key))
-        .attr('width', (d) => this.plotWidth - this.xScale(d.values.length))
-        .attr('height', this.yScale.bandwidth());
-  }
-
-  drawDots() {
-    var bars = this.plot.selectAll('.bar')
-      .data(this.data, (d) => d.key);
-    //
-    // bars.exit()
-    //   .remove();
-    //
-    // bars
-    //   .attr('width', (d) => this.plotWidth - this.xScale(d.values.length))
-    //   .attr('height', this.yScale.bandwidth())
-    //   .attr('x', 0)
-    //   .attr('y', (d) => this.yScale(d.key));
-    //
-    //
     bars.enter()
       .append('g')
         .attr('class', 'bar')
-        .attr('transform', (d) => `translate(5,${this.yScale(d.key)})`)
-          .selectAll('rect')
-            .data((d) => d.values)
-            .enter().append('circle')
-              .attr('r', this.dotRadius)
-              .attr('cx', (d,i) => {
-                return Chart.getDotCoordinates(i, this).x;
-              })
-              .attr('cy', (d,i) => {
-                return Chart.getDotCoordinates(i, this).y;
-              })
-              .attr('fill', (d) => this.colorScale(d[this.colorScaleParam]));
+        .attr('transform', (d) => `translate(5,${this.yScale(d.key)})`);
+
+    var dots = this.plot.selectAll('.bar').selectAll('circle')
+      .data((d,i) => {
+        return this.data[i].values;
+      }, (d) => d.label);
+  
+    dots.exit()
+      .remove();
+  
+    dots
+      .attr('r', this.dotRadius)
+      .transition()
+        .attr('fill', (d) => this.colorScale(d[this.colorScaleParam]))
+        .duration(1500)
+      .transition()
+        .attr('transform', (d,i) => {
+          var coordinates = Chart.getDotCoordinates(i, this);
+          return `translate(${coordinates.x}, ${coordinates.y})`;
+        })
+        .duration(1500);
+  
+    dots.enter().append('circle')
+      .attr('transform', (d,i) => {
+        var coordinates = Chart.getDotCoordinates(i, this);
+        return `translate(${coordinates.x}, ${coordinates.y})`;
+      })
+      .attr('fill', (d) => this.colorScale(d[this.colorScaleParam]))
+      .attr('r', 0)
+        .transition()
+          .attr('r', this.dotRadius)
+          .duration(2000);
+
   }
 
   get dotRadius() {
@@ -147,5 +139,4 @@ class Chart {
     //   - this.margin.bottom;
     return this.dotsPerBandWidth * this.data.length * this.dotRadius * 2;
   }
-
 }
