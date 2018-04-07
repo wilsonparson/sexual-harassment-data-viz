@@ -12,9 +12,7 @@ class Chart {
     this.colorScale = options.colorScale;
     this.colorScaleParam = options.colorScaleParam;
     this.dotsPerBandWidth = options.dotsPerBandWidth;
-    this.transition = {
-      duration: '400ms'
-    };
+    this.filter = options.filter;
   }
 
   draw() {
@@ -81,22 +79,26 @@ class Chart {
         return this.data[i].values;
       }, (d) => d.label);
   
-    dots.exit()
+    dots
+      .exit()
       .remove();
   
     dots
+      .filter(this.filter ? this.filter : () => true)
+      .moveToFront()
       .attr('r', this.dotRadius)
       .transition()
         .attr('fill', (d) => this.colorScale(d[this.colorScaleParam]))
-        .duration(1500)
+        .duration(1000)
       .transition()
         .attr('transform', (d,i) => {
           var coordinates = Chart.getDotCoordinates(i, this);
           return `translate(${coordinates.x}, ${coordinates.y})`;
         })
-        .duration(1500);
+        .duration(1000);
   
     dots.enter().append('circle')
+      .filter(this.filter ? this.filter : () => true)
       .attr('transform', (d,i) => {
         var coordinates = Chart.getDotCoordinates(i, this);
         return `translate(${coordinates.x},${coordinates.y})`;
