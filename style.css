@@ -12,7 +12,8 @@ h2 {
 }
 
 .chart-container {
-  /*height: 800px;*/
+  /* height: 800px;
+  width: 800px; */
 }
 
 .legend, .powergap-legend {
@@ -64,4 +65,8 @@ h2 {
   height: 100px;
   width: 200px;
   background-color: gray;
+}
+
+.bar:hover {
+  cursor: pointer;
 }

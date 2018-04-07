@@ -4,7 +4,7 @@
   <title>SI 649 | Sexual Harassment Data Visualization</title>
 
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=1000">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   <link rel="icon" href="bar-graph.ico">
@@ -12,12 +12,14 @@
 
   <script src="https://d3js.org/d3.v4.min.js" defer></script>
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js" defer></script>
+  <script src="d3-move-to-front.js" defer></script>
   <script src="model.js" defer></script>
   <script src="view.js" defer></script>
   <script src="controller.js" defer></script>
 </head>
 <body>
-  <h1>Sexual Harassment Incidents by Academic Discipline &amp; Target Status</h1>
+  <h1>Reported Sexual Harassment Incidents by Academic Discipline</h1>
+  <p style="display:none;">In the wake of the #MeToo movement, Dr. Karen Kelsky created an anonymous crowdsourced survey to reveal the scale of sexual harassment in academia and since its launch in November 2017, it has aggregated over 2000 entries. Though the data is voluntarily reported, entries which range from verbal sexual harassment to non-consensual touching, groping and/or rape, paints a striking image about harassment in academia—particularly about the patriarchal imbalance of power in the majority of incidences. Click through the bullets below to see trends in the power gap between targets and perpetrators, to compare the number of reported sexual harassment incidents among various academic disciplines, and to read these accounts of harassment that reveal the systemic protection of abusers over victims and the resulting consequences that those abused have to deal with.</p>
   <div class="legend">
     <h2>Target Status</h2>
     <div class="legend-items"></div>
@@ -32,7 +34,7 @@
   </div>
   <div class="chart-container"></div>
   <div class="controls">
-    <button>Show by Power Gap</button>
+    <button id="show-power-gap">Show by Power Gap</button>
     <button>Show by Perpetrator Role</button>
     <div>
       <input type="checkbox"> Show tenured

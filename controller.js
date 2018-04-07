@@ -1,6 +1,7 @@
 'use strict';
+
 const model = new Model('data.json');
-var powergapColorScale;
+var powergapColorScale
 var chart;
 
 model.loadData()
@@ -8,7 +9,9 @@ model.loadData()
     model.data = data;
     chart = new Chart({
       data: model.getDataByDiscipline(),
-      element: document.querySelector('.chart-container'),
+      container: document.querySelector('.chart-container'),
+      width: 960,
+      height: 600,
       margin: {top: 40, right: 40, bottom: 40, left: 160},
       categories: model.targetRolesByRank,
       colorScale: d3.scaleOrdinal()
@@ -21,10 +24,10 @@ model.loadData()
 
     //Move this somewhere cleaner
     // Discipline Legend
-    d3.select('.legend .legend-items').selectAll('div')
+    d3.select('.legend .legend-items').selectAll('button')
       .data(["Null", "K-12", "Undergraduate Student", "Graduate Student", "Masters Student", "PhD Student", "Postdoc", "Faculty", "Assistant Professor", "Associate Professor", "Professor", "Administrative"])
       .enter()
-      .append('div')
+      .append('button')
         .attr('style', (d) => {
           return `background-color: ${chart.colorScale(d)}`;
         })
@@ -46,32 +49,23 @@ model.loadData()
           return `background-color: ${powergapColorScale(d)};`;
         })
         .text((d) => d);
-
-
-    //tooltip
-    document.querySelectorAll('circle').forEach((element) => {
-      element.addEventListener('mouseover', (e) => {
-        d3.selectAll('.tooltip').remove();
-        var tooltip = d3.select('body').append('div')
-          .attr('class', 'tooltip')
-          .attr('style', `left: ${e.x}px; top: ${e.y}px;`);
-        tooltip.append('p')
-          .text('Incident:');
-        tooltip.append('p')
-          .text('Resolution:');
-      });
-      element.addEventListener('mouseout', (e) => {
-        //d3.selectAll('.tooltip').remove();
-      });
-    });
+     
   })
   .catch((error) => {
     throw error;
   });
 
-document.querySelector('button').addEventListener( 'click', (e) => {
+document.querySelector('#show-power-gap').addEventListener( 'click', (e) => {
   chart.data = model.getDataByDiscipline('powergap');
   chart.colorScale = powergapColorScale;
   chart.colorScaleParam = 'powergap';
   chart.drawBars();
 });
+
+
+function showByPowerGap(model, chart) {
+  chart.data = model.getDataByDiscipline('powergap');
+  chart.colorScale = powergapColorScale;
+  chart.colorScaleParam = 'powergap';
+  chart.drawBars(); 
+}
