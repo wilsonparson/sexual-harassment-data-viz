@@ -1,12 +1,17 @@
 'use strict';
 
 const model = new Model('data.json');
-var powergapColorScale
+var statusColorScale;
+var powergapColorScale;
 var chart;
 
 model.loadData()
   .then((data) => {
     model.data = data;
+    statusColorScale = d3.scaleOrdinal()
+      .domain(model.targetRolesByRank)
+      .range(d3.schemeSet3);
+
     chart = new Chart({
       data: model.getDataByDiscipline({sortValuesBy:'targetvalue'}),
       container: document.querySelector('.chart-container'),
@@ -14,9 +19,7 @@ model.loadData()
       height: 600,
       margin: {top: 40, right: 40, bottom: 40, left: 160},
       categories: model.targetRolesByRank,
-      colorScale: d3.scaleOrdinal()
-          .domain(model.targetRolesByRank)
-          .range(d3.schemeSet3),
+      colorScale: statusColorScale,
       dotsPerBandWidth: 3,
       colorScaleParam: 'cleantargetrole'
     });
@@ -31,13 +34,11 @@ model.loadData()
       .enter()
       .append('button')
         .on('click', (d) => {
-          chart.filteringByStatus = true;
           var dots = d3.selectAll('circle');
           dots.filter((datum) => datum.cleantargetrole !== d)
             .transition()
               .attr('fill', 'rgb(240,240,240)')
               .duration(400)
-          chart.filter = (datum) => datum.cleantargetrole === d;
           chart.drawBars();
         })
         .attr('class', 'target-perp-status')
@@ -69,9 +70,25 @@ model.loadData()
     throw error;
   });
 
-document.querySelector('#show-power-gap').addEventListener( 'click', (e) => {
+d3.select('#show-target-role').on('click', () => {
+  chart.data = model.getDataByDiscipline({sortValuesBy: 'targetvalue'});
+  chart.colorScale = statusColorScale;
+  chart.colorScaleParam = 'targetvalue';
+  chart.drawBars();
+});
+
+d3.select('#show-perp-role').on('click', () => {
+  chart.data = model.getDataByDiscipline({sortValuesBy: 'perpvalue'});
+  chart.colorScale = statusColorScale;
+  chart.colorScaleParam = 'perpvalue';
+  chart.drawBars();
+});
+
+d3.select('#show-power-gap').on( 'click', () => {
   chart.data = model.getDataByDiscipline({sortValuesBy:'powergap'});
   chart.colorScale = powergapColorScale;
   chart.colorScaleParam = 'powergap';
   chart.drawBars();
 });
+
+
