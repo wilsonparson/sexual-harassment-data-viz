@@ -12,7 +12,7 @@ class Chart {
     this.colorScale = options.colorScale;
     this.colorScaleParam = options.colorScaleParam;
     this.dotsPerBandWidth = options.dotsPerBandWidth;
-    this.filter = options.filter;
+    this.statusFilterValue = options.statusFilterValue;
   }
 
   draw() {
@@ -66,6 +66,7 @@ class Chart {
   }
 
   drawBars() {
+
     var bars = this.plot.selectAll('.bar')
       .data(this.data, (d) => d.key);
 
@@ -84,11 +85,17 @@ class Chart {
       .remove();
   
     dots
-      .filter(this.filter ? this.filter : () => true)
-      .moveToFront()
+      .raise()
       .attr('r', this.dotRadius)
       .transition()
-        .attr('fill', (d) => this.colorScale(d[this.colorScaleParam]))
+        .attr('fill', (d) => {
+          if (this.statusFilterValue &&
+              d[this.colorScaleParam] != this.statusFilterValue) {
+            return 'rgb(240,240,240)';
+          } else {
+            return this.colorScale(d[this.colorScaleParam]);
+          }
+        })
         .duration(1000)
       .transition()
         .attr('transform', (d,i) => {
@@ -98,17 +105,17 @@ class Chart {
         .duration(1000);
   
     dots.enter().append('circle')
-      .filter(this.filter ? this.filter : () => true)
       .attr('transform', (d,i) => {
         var coordinates = Chart.getDotCoordinates(i, this);
         return `translate(${coordinates.x},${coordinates.y})`;
       })
       .attr('fill', (d) => this.colorScale(d[this.colorScaleParam]))
-      .on('mouseover', () => {
+      .on('mouseover', (d) => {
+        // TODO: No hover effects on grayed out circles
         var dot = d3.select(d3.event.target);
         var currentFill = dot.attr('fill');
         dot
-          .moveToFront()
+          .raise()
           .transition()
             .attr('r', this.dotRadius * 1.8)
             .attr('stroke', (d) => d3.color(currentFill).darker())

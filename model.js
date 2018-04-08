@@ -18,12 +18,41 @@ class Model {
     });
   }
 
+ /**
+ * @description
+ * Returns d3 nested array with keys => academic discipline.
+ * Keys are sorted in descending order of the length of their values array.
+ * Values are sorted in ascending order of the key specified by
+ * options.sortValuesBy.
+ *
+ * @param {Object} options
+ * @param {String} options.sortValuesBy The key by which to sort values
+ * @param {Number} options.priorityValue Priority value to be placed first
+ *    in sorted return array
+ */
   getDataByDiscipline(options) {
     var dataByDiscipline = d3.nest()
       .key((d) => d['cleandisciplinev2'])
-      .sortValues((a,b) => d3.ascending(a[options.sortValuesBy], b[options.sortValuesBy]))
+      .sortValues((a,b) => {
+        if (!options.priorityValue) {
+          return d3.ascending(a[options.sortValuesBy], b[options.sortValuesBy]);
+        } else {
+          if (a[options.sortValuesBy] == options.priorityValue &&
+              b[options.sortValuesBy] == options.priorityValue) {
+            return 0;
+          }
+          if (a[options.sortValuesBy] == options.priorityValue) {
+            return -1;
+          }
+          if (b[options.sortValuesBy] === options.priorityValue) {
+            return 1;
+          }
+          return d3.ascending(a[options.sortValuesBy], b[options.sortValuesBy]);
+        }
+      })
       .entries(this.data);
-    dataByDiscipline.sort((a,b) => d3.descending(a.values.length, b.values.length));
+    dataByDiscipline.sort((a,b) =>
+        d3.descending(a.values.length, b.values.length));
     return dataByDiscipline;
   }
 
@@ -31,7 +60,22 @@ class Model {
     let targetRolesByRank = d3.nest()
       .key((d) => d['cleantargetrole'])
       .entries(this.data);
-    targetRolesByRank.sort((a,b) => d3.ascending(a.values[0].targetvalue, b.values[0].targetvalue));
+    targetRolesByRank.sort((a,b) =>
+        d3.ascending(a.values[0].targetvalue, b.values[0].targetvalue));
     return targetRolesByRank.map(datum => datum.key);
   }
+
+ /**
+ * @description
+ * Comparison method to be used in array.sort with priority exception.
+ *
+ * @param {Object} options
+ * @param {Number} options.a Comparator 1
+ * @param {Number} options.b Comparator 2
+ * @param {String} options.priority Priority Value
+ */
+  compareWithPriority(options) {
+    return d3.ascending(a,b);
+  }
+
 }

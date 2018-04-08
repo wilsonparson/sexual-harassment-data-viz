@@ -21,24 +21,26 @@ model.loadData()
       categories: model.targetRolesByRank,
       colorScale: statusColorScale,
       dotsPerBandWidth: 3,
-      colorScaleParam: 'cleantargetrole'
+      colorScaleParam: 'targetvalue'
     });
     chart.draw();
 
     //Move this somewhere cleaner
     // Discipline Legend
-
-    // TODO: Use sorting to move selected dots over to y axis (leaving no holes)
     d3.select('.legend .legend-items').selectAll('button')
       .data(model.targetRolesByRank)
       .enter()
       .append('button')
         .on('click', (d) => {
-          var dots = d3.selectAll('circle');
-          dots.filter((datum) => datum.cleantargetrole !== d)
-            .transition()
-              .attr('fill', 'rgb(240,240,240)')
-              .duration(400)
+          d3.selectAll('circle')
+            .filter((datum) => datum.cleantargetrole !== d)
+              .attr('data-inactive', true);
+
+          chart.data = model.getDataByDiscipline({
+            sortValuesBy: chart.colorScaleParam,
+            priorityValue: model.targetRolesByRank.indexOf(d)
+          })
+          chart.statusFilterValue = model.targetRolesByRank.indexOf(d);
           chart.drawBars();
         })
         .attr('class', 'target-perp-status')
@@ -46,7 +48,6 @@ model.loadData()
           return `background-color: ${chart.colorScale(d)}`;
         })
         .text((d) => d);
-       
 
     powergapColorScale = d3.scaleSequential(d3.interpolateBrBG)
       .domain([-model.targetRolesByRank.length, model.targetRolesByRank.length]);
