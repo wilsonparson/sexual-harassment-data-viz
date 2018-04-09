@@ -34,21 +34,7 @@ class Model {
     var dataByDiscipline = d3.nest()
       .key((d) => d['cleandisciplinev2'])
       .sortValues((a,b) => {
-        if (!options.priorityValue) {
-          return d3.ascending(a[options.sortValuesBy], b[options.sortValuesBy]);
-        } else {
-          if (a[options.sortValuesBy] == options.priorityValue &&
-              b[options.sortValuesBy] == options.priorityValue) {
-            return 0;
-          }
-          if (a[options.sortValuesBy] == options.priorityValue) {
-            return -1;
-          }
-          if (b[options.sortValuesBy] === options.priorityValue) {
-            return 1;
-          }
-          return d3.ascending(a[options.sortValuesBy], b[options.sortValuesBy]);
-        }
+        return Model.compareWithPriority(a,b,options);
       })
       .entries(this.data);
     dataByDiscipline.sort((a,b) =>
@@ -69,13 +55,29 @@ class Model {
  * @description
  * Comparison method to be used in array.sort with priority exception.
  *
+ * @param {Number} a Comparator 1
+ * @param {Number} b Comparator 2
  * @param {Object} options
- * @param {Number} options.a Comparator 1
- * @param {Number} options.b Comparator 2
- * @param {String} options.priority Priority Value
+ * @param {String} options.sortValuesBy Key by which to sort values (objects)
+ * @param {Number} options.priorityValue Value to be placed first in sorted
+ *    return array
  */
-  compareWithPriority(options) {
-    return d3.ascending(a,b);
+  static compareWithPriority(a,b,options) {
+    if (!options.priorityValue) {
+      return d3.ascending(a[options.sortValuesBy], b[options.sortValuesBy]);
+    } else {
+      if (a[options.sortValuesBy] == options.priorityValue &&
+          b[options.sortValuesBy] == options.priorityValue) {
+        return 0;
+      }
+      if (a[options.sortValuesBy] == options.priorityValue) {
+        return -1;
+      }
+      if (b[options.sortValuesBy] === options.priorityValue) {
+        return 1;
+      }
+      return d3.ascending(a[options.sortValuesBy], b[options.sortValuesBy]);
+    }
   }
 
 }

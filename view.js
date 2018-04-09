@@ -60,12 +60,10 @@ class Chart {
     this.plot.append('g')
       .attr('transform', `translate(0, ${this.plotHeight})`)
       .call(d3.axisBottom(this.xScale));
-    this.plot.append('g')
-      .attr('transform', 'translate(0,-5)')
-      .call(d3.axisTop(this.xScale));
   }
 
   drawBars() {
+    var $this = this;
 
     var bars = this.plot.selectAll('.bar')
       .data(this.data, (d) => d.key);
@@ -85,8 +83,13 @@ class Chart {
       .remove();
   
     dots
-      .raise()
       .attr('r', this.dotRadius)
+      .each( function (d) {
+        // Only raise colored dots
+        if (d[$this.colorScaleParam] == $this.statusFilterValue) {
+          d3.select(this).raise();
+        }
+      })
       .transition()
         .attr('fill', (d) => {
           if (this.statusFilterValue &&
