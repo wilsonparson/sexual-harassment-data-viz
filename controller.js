@@ -22,7 +22,7 @@ model.loadData()
       infobox: d3.select('.infobox'),
       width: 1000,
       height: 600,
-      margin: {top: 10, right: 40, bottom: 40, left: 160},
+      margin: {top: 10, right: 40, bottom: 40, left: 100},
       categories: model.targetRolesByRank,
       colorScale: statusColorScale,
       dotsPerBandWidth: 3,
@@ -36,11 +36,16 @@ model.loadData()
       .data(model.targetRolesByRank)
       .enter()
       .append('button')
+        .on('mouseover', () => {
+          var btn = d3.select(d3.event.target);
+          var currentFill = btn.style('background-color');
+          btn.style('background-color', () => d3.color(currentFill).darker(0.25));
+        })
+        .on('mouseout', (d) => {
+          d3.select(d3.event.target).style('background-color',
+            d => chart.colorScale(d));
+        })
         .on('click', (d) => {
-          d3.selectAll('circle')
-            .filter((datum) => datum.cleantargetrole !== d)
-              .attr('data-inactive', true);
-
           chart.data = model.getDataByDiscipline({
             sortValuesBy: chart.colorScaleParam,
             priorityValue: model.targetRolesByRank.indexOf(d)
@@ -48,17 +53,9 @@ model.loadData()
           chart.statusFilterValue = model.targetRolesByRank.indexOf(d);
           chart.drawBars();
           chart.drawDots();
-          // for sorting bars after filter is selected
-          // chart.data = Model.sortKeysByFilteredStatus(chart.data,
-          //     chart.colorScaleParam, chart.statusFilterValue);
-          // chart.createYScale();
-          // chart.drawBars();
-          // chart.drawDots();
         })
-        .attr('class', 'target-perp-status')
-        .attr('style', (d) => {
-          return `background-color: ${chart.colorScale(d)}`;
-        })
+        .attr('class', 'btn')
+        .style('background-color', (d) => chart.colorScale(d))
         .text((d) => d);
 
     powergapColorScale = d3.scaleSequential(d3.interpolateBrBG)
@@ -69,10 +66,10 @@ model.loadData()
     for (let i=-model.targetRolesByRank.length+1, ii=model.targetRolesByRank.length; i<ii; i++) {
       powergapScale.push(i);
     }
-    d3.select('.legend-powergap .legend__items').selectAll('div')
+    d3.select('.legend-powergap .legend__items').selectAll('span')
       .data(powergapScale)
       .enter()
-      .append('div')
+      .append('span')
         .attr('style', (d) => {
           return `background-color: ${powergapColorScale(d)};`;
         })
@@ -83,6 +80,11 @@ model.loadData()
     throw error;
   });
 
+d3.select('.controls').on('click', function() {
+  d3.select(this).selectAll('button').classed('active', false);
+  d3.select(d3.event.target).classed('active', true)
+});
+
 d3.select('#show-target-role').on('click', () => {
   chart.statusFilterValue = null;
   chart.data = model.getDataByDiscipline({sortValuesBy: 'targetvalue'});
@@ -90,7 +92,7 @@ d3.select('#show-target-role').on('click', () => {
   chart.colorScaleParam = 'targetvalue';
   chart.drawBars();
   chart.drawDots();
-  chart.toggleLegend('status');
+  chart.toggleLegend('powergap','status');
 });
 
 d3.select('#show-perp-role').on('click', () => {
@@ -100,7 +102,7 @@ d3.select('#show-perp-role').on('click', () => {
   chart.colorScaleParam = 'perpvalue';
   chart.drawBars();
   chart.drawDots();
-  chart.toggleLegend('status');
+  chart.toggleLegend('powergap','status');
 });
 
 d3.select('#show-powergap').on( 'click', () => {
@@ -110,7 +112,7 @@ d3.select('#show-powergap').on( 'click', () => {
   chart.colorScaleParam = 'powergap';
   chart.drawBars();
   chart.drawDots();
-  chart.toggleLegend('powergap');
+  chart.toggleLegend('status','powergap');
 });
 
 

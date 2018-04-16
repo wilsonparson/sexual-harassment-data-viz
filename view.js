@@ -96,6 +96,7 @@ class Chart {
       .remove();
   
     dots
+      .attr('pointer-events', 'none') // Disable hover during transition
       .attr('r', this.dotRadius)
       .each( function (d) {
         // Only raise colored dots
@@ -104,12 +105,13 @@ class Chart {
         }
       })
       .transition()
-        .attr('fill', (d) => {
-          if (this.statusFilterValue &&
+        .attr('fill', (d) => this.colorScale(d[this.colorScaleParam]))
+        .style('opacity', (d) => {
+          if (this.statusFilterValue != null &&
               d[this.colorScaleParam] != this.statusFilterValue) {
-            return 'rgb(240,240,240)';
+            return 0.1;
           } else {
-            return this.colorScale(d[this.colorScaleParam]);
+            return 1;
           }
         })
         .duration(1000)
@@ -118,7 +120,15 @@ class Chart {
           var coordinates = Chart.getDotCoordinates(i, this);
           return `translate(${coordinates.x}, ${coordinates.y})`;
         })
-        .duration(1000);
+        .duration(1000)
+        .on('end', function(d) { // Re-enable hover after transition
+          if ($this.statusFilterValue == null ||
+              d[$this.colorScaleParam] == $this.statusFilterValue) {
+            d3.select(this).attr('pointer-events', null);
+          } else {
+            d3.select(this).attr('pointer-events', 'none');
+          }
+        });
   
     dots.enter().append('circle')
       .attr('transform', (d,i) => {
@@ -144,12 +154,44 @@ class Chart {
             .attr('stroke', null)
             .duration(200)
       })
-      .on('click', (d) => {
+      .on('click', function(d) {
+        $this.populateIncidentTable(d);
         console.log(d);
-        this.infobox
-          .property('scrollTop', 0)
-          .html(
-          `<table class="table table-hover small">
+      })
+      .attr('r', 0)
+        .transition()
+          .attr('r', this.dotRadius)
+          .duration(400)
+          .delay((d,i) => i*2);
+  }
+
+  toggleLegend(legendToHide, legendToShow) {
+    if (this.legend[legendToShow].style('display') != 'block'){
+      this.legend[legendToHide]
+        .transition()
+          .style('opacity', 0)
+          .duration(1000)
+        .on('end', () => {
+          this.legend[legendToHide]
+            .style('display', 'none');
+
+          this.legend[legendToShow]
+            .style('display', 'block')
+            .style('opacity', 0)
+            .transition()
+              .style('opacity', 1)
+            .duration(1000);
+        });
+    }
+  }
+
+  populateIncidentTable(d) {
+    this.infobox.select('.infobox__content')
+      .property('scrollTop', 0)
+      .html(
+        `<h3>Incident #${d.id}</h3>
+        <div class="overflow-scroll">
+          <table class="table table-hover small">
             <tbody>
               <tr>
                 <th>Target</th>
@@ -188,35 +230,9 @@ class Chart {
                 <td>${d.life}</td>
               </tr>
             </tbody>
-          </table>`
+          </table>
+        </div>`
         );
-      })
-      .attr('r', 0)
-        .transition()
-          .attr('r', this.dotRadius)
-          .duration(400)
-          .delay((d,i) => i*2);
-  }
-
-  toggleLegend(legendName) {
-    if (this.legend[legendName].style('display') != 'block'){
-      for (let legendKey in this.legend){
-        if (legendKey == legendName) {
-          this.legend[legendKey]
-          .style('display', 'block')
-          .style('opacity', 0)
-            .transition()
-            .style('opacity', 1)
-          .duration(1000);
-        } else {
-          this.legend[legendKey]
-          .transition()
-          .style('opacity', 0)
-          .duration(1000)
-          .style('display', 'none');
-        }
-      }
-    }
   }
 
   get dotRadius() {
