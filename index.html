@@ -4,10 +4,12 @@
   <title>SI 649 | Sexual Harassment Data Visualization</title>
 
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=1000">
+  <!-- <meta name="viewport" content="width=1000"> -->
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   <link rel="icon" href="bar-graph.ico">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
   <link rel="stylesheet" href="style.css">
 
   <script src="https://d3js.org/d3.v4.min.js" defer></script>
@@ -20,22 +22,26 @@
   <h1>Reported Sexual Harassment Incidents by Academic Discipline</h1>
   <p class="lead" style="display:none;">In the wake of the #MeToo movement, Dr. Karen Kelsky created an anonymous crowdsourced survey to reveal the scale of sexual harassment in academia and since its launch in November 2017, it has aggregated over 2000 entries. Though the data is voluntarily reported, entries which range from verbal sexual harassment to non-consensual touching, groping and/or rape, paints a striking image about harassment in academia—particularly about the patriarchal imbalance of power in the majority of incidences. Click through the bullets below to see trends in the power gap between targets and perpetrators, to compare the number of reported sexual harassment incidents among various academic disciplines, and to read these accounts of harassment that reveal the systemic protection of abusers over victims and the resulting consequences that those abused have to deal with.</p>
   <div class="legend">
-    <h2>Target Status</h2>
-    <div class="legend-items"></div>
-  </div>
-  <div class="powergap-legend">
-    <h2>Power Gap</h2>
-    <div class="legend-labels">
-      <span>Target rank above perpetrator rank</span>
-      <span>Perpetrator rank above target rank</span>
+    <div class="legend-status">
+      <h2>Target Status</h2>
+      <div class="legend__items"></div>
     </div>
-    <div class="legend-items"></div>
+    <div class="legend-powergap">
+      <h2>Power Gap</h2>
+      <div class="legend__labels">
+        <span>Target rank above perpetrator rank</span>
+        <span>Perpetrator rank above target rank</span>
+      </div>
+      <div class="legend__items"></div>
+    </div>
   </div>
-  <div class="chart-container"></div>
+  <div class="chart-container">
+    <div class="infobox"></div>
+  </div>
   <div class="controls">
-    <button id="show-target-role">Show by Target Role</button>
-    <button id="show-perp-role">Show by Perpetrator Role</button>
-    <button id="show-power-gap">Show by Power Gap</button>
+    <button id="show-target-role">Show by Target Status</button>
+    <button id="show-perp-role">Show by Perpetrator Status</button>
+    <button id="show-powergap">Show by Power Gap</button>
     <div>
       <input type="checkbox"> Show tenured
     </div>

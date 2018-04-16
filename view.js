@@ -5,6 +5,8 @@ class Chart {
   constructor(options) {
     this.data = options.data;
     this.container = options.container;
+    this.legend = options.legend;
+    this.infobox = options.infobox;
     this.title = options.title;
     this.width = options.width;
     this.height = options.height;
@@ -26,6 +28,7 @@ class Chart {
     this.drawXAxis();
     this.drawYAxis();
     this.drawBars();
+    this.drawDots();
   }
 
   update() {
@@ -63,23 +66,33 @@ class Chart {
   }
 
   drawBars() {
-    var $this = this;
-
     var bars = this.plot.selectAll('.bar')
       .data(this.data, (d) => d.key);
+
+    bars.exit()
+      .remove();
+
+    bars
+      .attr('transform', (d) => `translate(5,${this.yScale(d.key)+this.dotRadius})`);
 
     bars.enter()
       .append('g')
         .attr('class', 'bar')
         .attr('transform', (d) => `translate(5,${this.yScale(d.key)+this.dotRadius})`);
+  }
+
+  drawDots() {
+    var $this = this;
 
     var dots = this.plot.selectAll('.bar').selectAll('circle')
-      .data((d,i) => {
-        return this.data[i].values;
-      }, (d) => d.label);
+      // .data((d,i) => {
+      //   return this.data[i].values;
+      // }, (d) => d.label);
+          .data((d,i) => {
+            return d.values;
+           }, (d) => d.label);
   
-    dots
-      .exit()
+    dots.exit()
       .remove();
   
     dots
@@ -121,7 +134,7 @@ class Chart {
           .raise()
           .transition()
             .attr('r', this.dotRadius * 1.8)
-            .attr('stroke', (d) => d3.color(currentFill).darker())
+            .attr('stroke', (d) => d3.color(currentFill).darker(0.5))
             .duration(50)
       })
       .on('mouseout', () => {
@@ -133,13 +146,77 @@ class Chart {
       })
       .on('click', (d) => {
         console.log(d);
+        this.infobox
+          .property('scrollTop', 0)
+          .html(
+          `<table class="table table-hover small">
+            <tbody>
+              <tr>
+                <th>Target</th>
+                <td>${d.cleantargetrole}</td>
+              </tr>
+              <tr>
+                <th>Perpetrator</th>
+                <td>${d.cleanperprole}</td>
+              </tr>
+              <tr>
+                <th>Institution</th>
+                <td>${d.institution}</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>${d.event}</td>
+              </tr>
+              <tr>
+                <th>Institutional Response</th>
+                <td>${d.response}</td>
+              </tr>
+              <tr>
+                <th>Punishment</th>
+                <td>${d.punishment}</td>
+              </tr>
+              <tr>
+                <th>Career Impact</th>
+                <td>${d.career}</td>
+              </tr>
+              <tr>
+                <th>Mental Impact</th>
+                <td>${d.mental}</td>
+              </tr>
+              <tr>
+                <th>Life Impact</th>
+                <td>${d.life}</td>
+              </tr>
+            </tbody>
+          </table>`
+        );
       })
       .attr('r', 0)
         .transition()
           .attr('r', this.dotRadius)
           .duration(400)
-          .delay((d,i) => i*2)
+          .delay((d,i) => i*2);
+  }
 
+  toggleLegend(legendName) {
+    if (this.legend[legendName].style('display') != 'block'){
+      for (let legendKey in this.legend){
+        if (legendKey == legendName) {
+          this.legend[legendKey]
+          .style('display', 'block')
+          .style('opacity', 0)
+            .transition()
+            .style('opacity', 1)
+          .duration(1000);
+        } else {
+          this.legend[legendKey]
+          .transition()
+          .style('opacity', 0)
+          .duration(1000)
+          .style('display', 'none');
+        }
+      }
+    }
   }
 
   get dotRadius() {

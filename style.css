@@ -1,5 +1,7 @@
 body {
   font-family: sans-serif;
+  width: 1200px;
+  margin: 0 auto;
 }
 
 h1 {
@@ -12,42 +14,54 @@ h2 {
 }
 
 .chart-container {
-  /* height: 800px;
-  width: 800px; */
+  width: 1000px;
+  margin: 0 auto;
+  position: relative;
 }
 
-.legend, .powergap-legend {
+.infobox {
+  position: absolute;
+  top: 27%;
+  right: 3%;
+  height: 63%;
+  width: 60%;
+  overflow-y: scroll;
+}
+
+.legend {
   width: 85%;
+  height: 80px;
   margin: 0 auto;
 }
 
 
-.legend-items {
+.legend__items {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
   font-size: .5rem;
   margin: 0 auto;
 }
 
-.legend-items div {
+.legend__items div {
   padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex: 1;
-}
-
-.legend .legend-items div {
   margin: 2px;
   border-radius: 2px;
 }
 
-.powergap-legend .legend-items div {
+.legend-powergap {
+  display: none;
+  opacity: 0;
+}
+
+.legend-powergap .legend__items div {
   flex: 1;
 }
 
-.powergap-legend .legend-labels {
+.legend-powergap .legend__labels {
   font-size: .7rem;
   display: flex;
   justify-content: space-between;
