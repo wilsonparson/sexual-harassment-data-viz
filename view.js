@@ -296,7 +296,7 @@ class Chart {
       .property('scrollTop', 0)
       .html(
         `<h3>Target Status</h3>
-          <p>Highlighted here is the rank of the target and subject area of the reported harassment incident. Graduate students were separated into three categories depending on whether they reported themselves as general graduate students, Masters students, or PhD students. Additionally, visiting and adjunct professors were give the rank of faculty—which includes lecturers, instructors, and research technicians—because of their temporary and often untenured status at a university.</p>
+          <p>Highlighted here is the rank of the target and subject area of the reported harassment incident. Graduate students were separated into three categories depending on whether they reported themselves as general graduate students, Masters students, or PhD students. Additionally, visiting and adjunct professors were given the rank of faculty—which includes lecturers, instructors, and research technicians—because of their temporary and often untenured status at a university.</p>
 
           <p>In each academic discipline, graduate students appear to face the most harassment compared to those above and below them in rank. It should be noted that while the data communicates that there is more sexual harassment in academic disciplines such as English, history, or art, this is potentially caused by two factors:</p>
 
