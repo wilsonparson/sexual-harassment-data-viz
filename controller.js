@@ -90,7 +90,12 @@ d3.select('#show-perp-role').on('click', showPerpStatus);
 d3.select('#show-powergap').on('click', showPowerGap);
 d3.select('body').on('click', () => {
   if (d3.event.target.nodeName == 'svg' || d3.event.target.nodeName == 'DIV') {
-    resetChart();
+    if (chart.statusFilterValue != null) {
+      resetChart();
+    } else {
+      d3.selectAll('.selected').classed('selected', false);
+      resetBlurb();
+    }
   }
 });
 

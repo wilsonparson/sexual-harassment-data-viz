@@ -86,18 +86,14 @@ class Chart {
     var $this = this;
 
     var dots = this.plot.selectAll('.bar').selectAll('circle')
-      // .data((d,i) => {
-      //   return this.data[i].values;
-      // }, (d) => d.label);
-          .data((d,i) => {
-            return d.values;
-           }, (d) => d.label);
+      .data((d,i) => {
+        return d.values;
+        }, (d) => d.label);
   
     dots.exit()
       .remove();
   
     dots
-      .classed('disabled', true)
       .attr('data-initial-index', (d,i) => i)
       .attr('r', this.dotRadius)
       .each( function (d) {
@@ -106,6 +102,7 @@ class Chart {
           d3.select(this).raise();
         }
       })
+      .classed('disabled', true)
       .transition()
         .attr('stroke', null)
         .attr('fill', (d) => this.colorScale(d[this.colorScaleParam]))
@@ -180,6 +177,15 @@ class Chart {
           var selectedDot = d3.select(this);
           var initialIndex = selectedDot.attr('data-initial-index');
           var {x,y} = Chart.getDotCoordinates(initialIndex, $this); 
+          if (!selectedDot.classed('selected')) {
+            selectedDot.transition()
+              .attr('transform', `translate(${x},${y})`)
+              .attr('r', $this.dotRadius)
+              .attr('stroke', null)
+              .duration(200)
+              .ease(d3.easeQuad)
+              return;
+          } 
           selectedDot
             .transition()
               .attr('transform', `translate(${x},${y-2})`)
