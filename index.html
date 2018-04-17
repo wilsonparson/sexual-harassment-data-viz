@@ -19,37 +19,36 @@
   <script src="controller.js" defer></script>
 </head>
 <body>
+  <main>
   <section class="visualization">
-    <h1>Reported Sexual Harassment Incidents by Academic Discipline</h1>
-    <div class="legend">
-      <div class="legend-status">
-        <div class="btn-group btn-group-sm legend__items" role="group" aria-label="Filter by status"></div>
-      </div>
-      <div class="legend-powergap">
-        <div class="legend__labels">
-          <span>Perpetrator rank <em>below</em> perpetrator rank</span>
-          <span>Perpetrator rank <em>above</em> target rank</span>
+      <h1>Reported Sexual Harassment Incidents by Academic Discipline</h1>
+      <div class="legend">
+        <div class="legend-status">
+          <div class="btn-group btn-group-sm legend__items" role="group" aria-label="Filter by status"></div>
         </div>
-        <div class="legend__items"></div>
-      </div>
-    </div>
-    <div class="chart-container">
-      <div class="infobox">
-        <div class="infobox__fade infobox__fade--top"></div>
-        <div class="infobox__content"></div>
-        <div class="infobox__fade infobox__fade--bottom"></div>
-      </div>
-    </div>
-    <div class="d-flex justify-content-center">
-      <div class="controls btn-group" role="group" aria-label="View by">
-          <button id="show-target-role" type="button" class="btn btn-light active">Target Status</button>
-          <button id="show-perp-role" type="button" class="btn btn-light">Perpetrator Status</button>
-          <button id="show-powergap" type="button" class="btn btn-light">Power Gap</button>
+        <div class="legend-powergap">
+          <div class="legend__labels">
+            <span>Perpetrator rank <em>below</em> perpetrator rank</span>
+            <span>Perpetrator rank <em>above</em> target rank</span>
+          </div>
+          <div class="legend__items"></div>
         </div>
-    </div>
-  </section>
-  <section class="explanation">
-    <p class="lead" style="display:none;">In the wake of the #MeToo movement, Dr. Karen Kelsky created an anonymous crowdsourced survey to reveal the scale of sexual harassment in academia and since its launch in November 2017, it has aggregated over 2000 entries. Though the data is voluntarily reported, entries which range from verbal sexual harassment to non-consensual touching, groping and/or rape, paints a striking image about harassment in academia—particularly about the patriarchal imbalance of power in the majority of incidences. Click through the bullets below to see trends in the power gap between targets and perpetrators, to compare the number of reported sexual harassment incidents among various academic disciplines, and to read these accounts of harassment that reveal the systemic protection of abusers over victims and the resulting consequences that those abused have to deal with.</p>
-  </section>
+      </div>
+      <div class="chart-container">
+        <div class="infobox">
+          <div class="infobox__fade infobox__fade--top"></div>
+          <div class="infobox__content small"></div>
+          <div class="infobox__fade infobox__fade--bottom"></div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="controls btn-group" role="group" aria-label="View by">
+            <button id="show-target-role" type="button" class="btn btn-light active">Target Status</button>
+            <button id="show-perp-role" type="button" class="btn btn-light">Perpetrator Status</button>
+            <button id="show-powergap" type="button" class="btn btn-light">Power Gap</button>
+          </div>
+      </div>
+    </section>
+  </main>
 </body>
 </html>

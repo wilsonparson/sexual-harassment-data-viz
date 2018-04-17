@@ -1,7 +1,13 @@
+html {
+  min-height: 100vh;
+}
 body {
-  font-family: sans-serif;
+  min-height: 100vh;
   width: 1200px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 h1 {
@@ -20,6 +26,7 @@ h1 {
   right: 3%;
   height: 63%;
   width: 67%;
+  opacity: 0;
 }
 
 .infobox__content {
@@ -43,6 +50,7 @@ h1 {
 .infobox__fade--bottom {
   bottom: 0;
   background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
+  height: 10%;
 }
 
 .legend {
@@ -68,6 +76,7 @@ h1 {
 .legend-powergap .legend__labels {
   display: flex;
   justify-content: space-between;
+  padding-bottom: 5px;
 }
 
 .legend-powergap .legend__items {
@@ -88,4 +97,8 @@ h1 {
 
 .bar:hover {
   cursor: pointer;
+}
+
+.disabled {
+  pointer-events: none;
 }

@@ -53,6 +53,7 @@ model.loadData()
           chart.statusFilterValue = model.targetRolesByRank.indexOf(d);
           chart.drawBars();
           chart.drawDots();
+          resetBlurb();
         })
         .attr('class', 'btn')
         .style('background-color', (d) => chart.colorScale(d))
@@ -84,8 +85,36 @@ d3.select('.controls').on('click', function() {
   d3.select(this).selectAll('button').classed('active', false);
   d3.select(d3.event.target).classed('active', true)
 });
+d3.select('#show-target-role').on('click', showTargetStatus);
+d3.select('#show-perp-role').on('click', showPerpStatus);
+d3.select('#show-powergap').on('click', showPowerGap);
+d3.select('body').on('click', () => {
+  if (d3.event.target.nodeName == 'svg' || d3.event.target.nodeName == 'DIV') {
+    resetChart();
+  }
+});
 
-d3.select('#show-target-role').on('click', () => {
+function resetChart() {
+  if (chart.colorScaleParam == 'perpvalue') {
+    showPerpStatus();
+  } else if (chart.colorScaleParam == 'powergap') {
+    showPowerGap();
+  } else {
+    showTargetStatus();
+  }
+}
+
+function resetBlurb() {
+  if (chart.colorScaleParam == 'perpvalue') {
+    chart.displayPerpetratorBlurb();
+  } else if (chart.colorScaleParam == 'powergap') {
+    chart.displayPowerGapBlurb();
+  } else {
+    chart.displayTargetBlurb();
+  }
+}
+
+function showTargetStatus() {
   chart.statusFilterValue = null;
   chart.data = model.getDataByDiscipline({sortValuesBy: 'targetvalue'});
   chart.colorScale = statusColorScale;
@@ -93,9 +122,10 @@ d3.select('#show-target-role').on('click', () => {
   chart.drawBars();
   chart.drawDots();
   chart.toggleLegend('powergap','status');
-});
+  chart.displayTargetBlurb();
+}
 
-d3.select('#show-perp-role').on('click', () => {
+function showPerpStatus() {
   chart.statusFilterValue = null;
   chart.data = model.getDataByDiscipline({sortValuesBy: 'perpvalue'});
   chart.colorScale = statusColorScale;
@@ -103,9 +133,10 @@ d3.select('#show-perp-role').on('click', () => {
   chart.drawBars();
   chart.drawDots();
   chart.toggleLegend('powergap','status');
-});
+  chart.displayPerpetratorBlurb();
+}
 
-d3.select('#show-powergap').on( 'click', () => {
+function showPowerGap() {
   chart.statusFilterValue = null;
   chart.data = model.getDataByDiscipline({sortValuesBy: 'powergap'});
   chart.colorScale = powergapColorScale;
@@ -113,6 +144,7 @@ d3.select('#show-powergap').on( 'click', () => {
   chart.drawBars();
   chart.drawDots();
   chart.toggleLegend('status','powergap');
-});
+  chart.displayPowerGapBlurb();
+}
 
 
