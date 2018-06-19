@@ -15,8 +15,8 @@ This is a group project for SI 649: Information Visualization at University of M
     3. [Encodings](#3-encodings)
     4. [Effectiveness](#4-effectiveness)
     5. [Narrative/Use of Text](#5-narrative-use-of-text)
-    6. [Interactivity](#interactivity)
-    7. [Limitations](#limitations)
+    6. [Interactivity](#6-interactivity)
+    7. [Limitations](#7-limitations)
 
 
 # Executive Summary
