@@ -3,7 +3,10 @@
 *SI 649: Information Visualization, Section 001, Winter 2018*  
 *Group 3: Wilson Parson, Kristen Mcgarry, and Thanhthu (Tammy) Nguyen*
 
+[Visualization](https://wilsonparson.github.io/sexual-harassment-data-viz/ ) | [Intro page](https://wilsonparson.github.io/sexual-harassment-data-viz/intro.html)
+
 This is a group project for SI 649: Information Visualization at University of Michigan School of Information. The data used for the project are taken from a survey created by Karen Kelsky, PhD: [Sexual Harassment In the Academy: An Anonymous Crowdsourced Survey](https://docs.google.com/forms/d/e/1FAIpQLSeqWdpDxVRc-i8OiiClJPluIpjMlM41aUlU2E0rrQ4br_rQmA/viewform). Live survey results can be found at [Sexual Harassment In the Academy: An Anonymous Crowdsourced Survey (Live Submissions Google Sheet)](https://docs.google.com/spreadsheets/d/1S9KShDLvU7C-KkgEevYTHXr3F6InTenrBsS9yk-8C5M/edit#gid=1530077352).
+
 
 # Table of Contents
 - [Executive Summary](#executive-summary)
@@ -101,6 +104,6 @@ Finally, we chose to use interactivity to allow users to obtain details on deman
 
 As the dataset is voluntary crowdsourced, our data is somewhat bias as it represents only the incidents that victims have chosen to report. For example, while English appears to be the discipline with the most incidents of sexual harassment, it’s a possible that other disciplines, like STEM, have an equivalent number of cases of sexual misconduct, but cultural norms within STEM fields may prevent victims from reporting, even anonymously. Furthermore, while the gender of the perpetrator is given, the survey doesn’t ask for the gender of the victim; it is normatively implied that a majority of the victims are women.
 
+---
 
-
-
+[Visualization](https://wilsonparson.github.io/sexual-harassment-data-viz/ ) | [Intro page](https://wilsonparson.github.io/sexual-harassment-data-viz/intro.html)
