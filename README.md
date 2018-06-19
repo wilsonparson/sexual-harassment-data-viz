@@ -25,7 +25,9 @@ This is a group project for SI 649: Information Visualization at University of M
 # Executive Summary
 
 ## Team Members
-Wilson Parson, Kristen Mcgarry, and Thanhthu (Tammy) Nguyen
+- [Wilson Parson](https://github.com/wilsonparson)
+- [Kristen Mcgarry](https://github.com/kmmcgarry)
+- Thanhthu (Tammy) Nguyen
 
 ## Project Overview
 Upon initial exploration of the “Sexual Harassment in Academia” data set and of the barebones tool that exists for exploring the data, we quickly came to the decision that what was aggregated here needed to be communicated more effectively—specifically to bring awareness to the hidden sexual misconduct that occurs in academia. We decided to focus on a specific subset of the data—the event itself, the role/rank of the target, the role/rank of the perpetrator, the academic discipline that the victim and/or perpetrator belongs/belonged to, and the power difference/gap between the target and perpetrator—with the goals of revealing which academic disciplines appear to have a higher incidences of sexual misconduct, which academic rank appear to be most frequently committing sexual harassment, revealing the imbalance and abuse of power in a majority of these accounts, and humanizing the data by allowing our audience to read these personal stories of abuse.
